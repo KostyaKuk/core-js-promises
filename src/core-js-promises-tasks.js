@@ -37,7 +37,15 @@ function getPromise(number) {
  * Promise.reject('fail')     => promise that will be fulfilled with 'fail' value
  */
 function getPromiseResult(source) {
-  return source.then(() => 'success').catch(() => 'fail');
+  return new Promise((resolve) => {
+    source
+      .then(() => {
+        resolve('success');
+      })
+      .catch(() => {
+        resolve('fail');
+      });
+  });
 }
 
 /**
@@ -77,7 +85,7 @@ function getFirstResolvedPromiseResult(promises) {
  * [promise3, promise4, promise6] => Promise rejected with 6
  */
 function getFirstPromiseResult(promises) {
-  return Promise.any(promises);
+  return Promise.race(promises);
 }
 
 /**
